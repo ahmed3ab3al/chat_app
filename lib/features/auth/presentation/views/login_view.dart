@@ -1,3 +1,7 @@
+import 'package:chat_app/core/utils/colors.dart';
+import 'package:chat_app/core/utils/styles.dart';
+import 'package:chat_app/core/widgets/custom_button.dart';
+import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -24,130 +28,79 @@ class _LoginViewState extends State<LoginView> {
           child: Form(
             key: formKey,
             child: Column(
-              children: [
+              children: <Widget>[
                 const Image(image: AssetImage("assets/images/scholar.png")),
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
+                 Text(
                   'Scholar Chat',
-                  style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontFamily: 'Pacifico'),
+                  style:Styles.appTitleTextStyle
                 ),
                 const SizedBox(
                   height: 80,
                 ),
-                const Row(
+                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       'Sign In',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: Styles.signInTextStyle,
                     ),
                   ],
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                TextFormField(
-                  controller: emailController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      return null;
-                    },
-                    cursorColor: Colors.white,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                      hintText: 'Email',
-                      hintStyle: TextStyle(color: Colors.white, fontSize: 15),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                    )),
+                CustomTextFormFiled(
+                  customController: passwordController,
+                  cursorColor: AppColors.white,
+                  borderRadius: 10,
+                  hintTextStyle:
+                     Styles.hintTextStyle,
+                  borderColor: Colors.white,
+                  inputTextStyle:Styles.inputTextStyle,
+                  textValidator: 'Enter correct Email',
+                  hint: 'Email',
+                  type: TextInputType.text,
+                ),
                 const SizedBox(
                   height: 10,
                 ),
-                TextFormField(
-                  controller: passwordController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
+                CustomTextFormFiled(
+                  customController: passwordController,
+                  cursorColor: AppColors.white,
+                  borderRadius: 10,
+                  hintTextStyle:
+                  Styles.hintTextStyle,
+                  borderColor: AppColors.white,
+                  inputTextStyle: Styles.inputTextStyle,
+                  textValidator: 'Enter correct password',
+                  hint: 'Password',
+                  secure: secure,
+                  type: TextInputType.visiblePassword,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        secure = !secure;
+                      });
                     },
-                    obscureText: secure,
-                    cursorColor: Colors.white,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      hintStyle:
-                          const TextStyle(color: Colors.white, fontSize: 15),
-                      enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: secure
-                            ? const Icon(
-                                Icons.visibility_off,
-                                color: Colors.white,
-                              )
-                            : const Icon(
-                                Icons.visibility,
-                                color: Colors.white,
-                              ),
-                        onPressed: () {
-                          setState(() {
-                            secure = !secure;
-                          });
-                        },
-                      ),
-                    )),
+                    icon: Icon(secure ? Icons.visibility_off : Icons.visibility,
+                        color: AppColors.white, size: 25),
+                  ),
+                ),
                 const SizedBox(
                   height: 30,
                 ),
-                GestureDetector(
+                CustomButton(
+                  text: 'Sign In',
                   onTap: () {
                     if (formKey.currentState!.validate()) {}
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white),
-                    width: double.infinity,
-                    height: 50,
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Sign In',
-                          style: TextStyle(color: Colors.black, fontSize: 25),
-                        ),
-                      ],
-                    ),
-                  ),
+                  containerHeight: 50,
+                  buttonColor: Colors.white,
+                  radius: 10,
+                  textStyle: Styles.buttonTextStyle
                 ),
                 const SizedBox(
                   height: 12,
@@ -155,15 +108,15 @@ class _LoginViewState extends State<LoginView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                     Text(
                       'Don\'t have an account ?',
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                      style:Styles.noHaveAccountTextStyle
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: const Text(
+                      child:  Text(
                         ' Sign Up',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: Styles.signUpTextStyle
                       ),
                     )
                   ],

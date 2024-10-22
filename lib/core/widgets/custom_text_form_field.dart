@@ -1,0 +1,84 @@
+
+
+import 'package:flutter/material.dart';
+
+class CustomTextFormFiled extends StatelessWidget {
+  final TextInputType? type;
+  final double? borderRadius;
+  final IconData? prefixIcon;
+  final String? hint;
+  final String? label;
+  final String textValidator;
+  final TextEditingController? customController;
+  final bool? secure;
+  final Widget? suffixIcon;
+  final TextStyle? hintTextStyle;
+  final TextStyle? labelTextStyle;
+  final TextStyle? inputTextStyle;
+  final Color? borderColor;
+  final Color? cursorColor;
+
+
+    const CustomTextFormFiled({
+    super.key,
+    this.hint,
+   required this.customController,
+    this.type,
+    this.prefixIcon,
+    this.suffixIcon,this.secure=false,
+      required this.textValidator,
+      this.hintTextStyle,
+      this.label,
+      this.labelTextStyle,
+      this.borderRadius,
+      this.inputTextStyle,
+      this.borderColor,
+      this.cursorColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      style: inputTextStyle,
+      cursorColor: cursorColor,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return textValidator;
+        }
+        return null;
+      },
+      controller: customController,
+      keyboardType: type,
+      obscureText: secure!,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius!),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius!),
+          borderSide:  BorderSide(
+            color: borderColor!,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius!),
+          borderSide:  BorderSide(
+            color: borderColor!,
+          ),),
+        errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius!),
+          borderSide:  BorderSide(
+            color: borderColor!,
+          ),),
+        hintText: '$hint',
+        hintStyle:hintTextStyle,
+        labelStyle: labelTextStyle,
+        labelText: '$label',
+        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon == null
+            ? null
+            : Icon(prefixIcon)
+        ),
+      );
+  }
+}

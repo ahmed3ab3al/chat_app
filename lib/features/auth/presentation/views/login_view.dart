@@ -1,8 +1,10 @@
+import 'package:chat_app/constant.dart';
 import 'package:chat_app/core/utils/colors.dart';
 import 'package:chat_app/core/utils/styles.dart';
 import 'package:chat_app/core/widgets/custom_button.dart';
 import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -21,14 +23,14 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2B475E),
+      backgroundColor: kPrimaryColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 110, left: 20, right: 20),
           child: Form(
             key: formKey,
             child: Column(
-              children: <Widget>[
+              children:[
                 const Image(image: AssetImage("assets/images/scholar.png")),
                 const SizedBox(
                   height: 10,
@@ -113,7 +115,9 @@ class _LoginViewState extends State<LoginView> {
                       style:Styles.noHaveAccountTextStyle
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        GoRouter.of(context).pop();
+                      },
                       child:  Text(
                         ' Sign Up',
                         style: Styles.signUpTextStyle

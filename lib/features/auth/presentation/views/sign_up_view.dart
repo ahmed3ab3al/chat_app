@@ -1,17 +1,20 @@
+import 'package:chat_app/constant.dart';
+import 'package:chat_app/core/utils/app_router.dart';
 import 'package:chat_app/core/utils/colors.dart';
 import 'package:chat_app/core/utils/styles.dart';
 import 'package:chat_app/core/widgets/custom_button.dart';
 import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class SignUpView extends StatefulWidget {
+  const SignUpView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<SignUpView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends State<SignUpView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -21,7 +24,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2B475E),
+      backgroundColor:  kPrimaryColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 110, left: 20, right: 20),
@@ -105,7 +108,9 @@ class _LoginViewState extends State<LoginView> {
                     Text('already have an account ?',
                         style: Styles.noHaveAccountTextStyle),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        GoRouter.of(context).push(AppRouter.login);
+                      },
                       child: Text(' Login', style: Styles.signUpTextStyle),
                     )
                   ],

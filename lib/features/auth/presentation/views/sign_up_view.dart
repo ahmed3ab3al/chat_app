@@ -21,6 +21,7 @@ class _LoginViewState extends State<SignUpView> {
 
   bool secure = true;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +54,7 @@ class _LoginViewState extends State<SignUpView> {
                   height: 10,
                 ),
                 CustomTextFormFiled(
-                  customController: passwordController,
+                  customController: emailController,
                   cursorColor: AppColors.white,
                   borderRadius: 10,
                   hintTextStyle: Styles.hintTextStyle,
@@ -92,8 +93,7 @@ class _LoginViewState extends State<SignUpView> {
                 ),
                 CustomButton(
                     text: 'REGISTER',
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {}
+                    onTap: ()  {
                     },
                     containerHeight: 50,
                     buttonColor: Colors.white,

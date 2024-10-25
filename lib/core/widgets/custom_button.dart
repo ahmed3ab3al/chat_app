@@ -9,10 +9,7 @@ class CustomButton extends StatelessWidget {
   final double? radius;
   final TextStyle? textStyle;
   final Color? buttonColor;
-  final Color? firstLinearColor;
-  final Color? secondLinearColor;
-  final Alignment? firstLinearAlignment;
-  final AlignmentGeometry? secondLinearAlignment;
+
 
   const CustomButton({
     super.key,
@@ -20,7 +17,6 @@ class CustomButton extends StatelessWidget {
     required this.onTap,
     required this.containerHeight,
     this.width, this.radius, this.textStyle, this.buttonColor,
-    this.firstLinearColor, this.secondLinearColor, this.firstLinearAlignment, this.secondLinearAlignment,
   });
 
   @override
@@ -31,14 +27,6 @@ class CustomButton extends StatelessWidget {
         height: containerHeight,
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient:  LinearGradient(
-            colors: [
-              firstLinearColor!,
-              secondLinearColor!,
-            ],
-            begin:firstLinearAlignment!,
-            end: secondLinearAlignment!,
-          ),
           color: buttonColor,
           borderRadius: BorderRadius.circular(radius!),
         ),

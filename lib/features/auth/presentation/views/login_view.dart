@@ -55,7 +55,7 @@ class _LoginViewState extends State<LoginView> {
                   height: 10,
                 ),
                 CustomTextFormFiled(
-                  customController: passwordController,
+                  customController: emailController,
                   cursorColor: AppColors.white,
                   borderRadius: 10,
                   hintTextStyle:
@@ -97,7 +97,6 @@ class _LoginViewState extends State<LoginView> {
                 CustomButton(
                   text: 'Sign In',
                   onTap: () {
-                    if (formKey.currentState!.validate()) {}
                   },
                   containerHeight: 50,
                   buttonColor: Colors.white,

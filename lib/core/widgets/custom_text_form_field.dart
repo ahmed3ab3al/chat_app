@@ -1,14 +1,11 @@
-
-
 import 'package:flutter/material.dart';
 
 class CustomTextFormFiled extends StatelessWidget {
   final TextInputType? type;
   final double? borderRadius;
-  final IconData? prefixIcon;
+  final Widget? prefixIcon;
   final String? hint;
   final String? label;
-  final String textValidator;
   final TextEditingController? customController;
   final bool? secure;
   final Widget? suffixIcon;
@@ -17,23 +14,23 @@ class CustomTextFormFiled extends StatelessWidget {
   final TextStyle? inputTextStyle;
   final Color? borderColor;
   final Color? cursorColor;
+  final String? Function(String?) validator;
 
-
-    const CustomTextFormFiled({
+  const CustomTextFormFiled({
     super.key,
     this.hint,
-   required this.customController,
+    required this.customController,
     this.type,
     this.prefixIcon,
-    this.suffixIcon,this.secure=false,
-      required this.textValidator,
-      this.hintTextStyle,
-      this.label,
-      this.labelTextStyle,
-      this.borderRadius,
-      this.inputTextStyle,
-      this.borderColor,
-      this.cursorColor,
+    this.suffixIcon,
+    this.secure = false,
+    this.hintTextStyle,
+    this.label,
+    this.labelTextStyle,
+    this.borderRadius,
+    this.inputTextStyle,
+    this.borderColor,
+    this.cursorColor, required this.validator,
   });
 
   @override
@@ -41,44 +38,38 @@ class CustomTextFormFiled extends StatelessWidget {
     return TextFormField(
       style: inputTextStyle,
       cursorColor: cursorColor,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return textValidator;
-        }
-        return null;
-      },
+      validator:validator,
       controller: customController,
       keyboardType: type,
       obscureText: secure!,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius!),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius!),
-          borderSide:  BorderSide(
-            color: borderColor!,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius!),
           ),
-        ),
-        enabledBorder: OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(borderRadius!),
-          borderSide:  BorderSide(
-            color: borderColor!,
-          ),),
-        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: borderColor!,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(borderRadius!),
-          borderSide:  BorderSide(
-            color: borderColor!,
-          ),),
-        hintText: '$hint',
-        hintStyle:hintTextStyle,
-        labelStyle: labelTextStyle,
-        labelText: '$label',
-        suffixIcon: suffixIcon,
-        prefixIcon: prefixIcon == null
-            ? null
-            : Icon(prefixIcon)
-        ),
-      );
+            borderSide: BorderSide(
+              color: borderColor!,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius!),
+            borderSide: BorderSide(
+              color: borderColor!,
+            ),
+          ),
+          hintText: hint,
+          hintStyle: hintTextStyle,
+          labelStyle: labelTextStyle,
+          labelText: label,
+          suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon),
+    );
   }
 }

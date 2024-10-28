@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class CustomButton extends StatelessWidget {
   final String text;
   final double containerHeight;
@@ -10,13 +9,15 @@ class CustomButton extends StatelessWidget {
   final TextStyle? textStyle;
   final Color? buttonColor;
 
-
   const CustomButton({
     super.key,
     required this.text,
     required this.onTap,
     required this.containerHeight,
-    this.width, this.radius, this.textStyle, this.buttonColor,
+    this.width,
+    this.radius,
+    this.textStyle,
+    this.buttonColor,
   });
 
   @override
@@ -34,10 +35,7 @@ class CustomButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              text,
-              style:textStyle
-            ),
+            Text(text, style: textStyle),
           ],
         ),
       ),

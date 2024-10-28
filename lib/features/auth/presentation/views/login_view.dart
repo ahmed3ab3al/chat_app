@@ -1,10 +1,10 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/core/utils/colors.dart';
 import 'package:chat_app/core/utils/styles.dart';
+import 'package:chat_app/core/utils/validator.dart';
 import 'package:chat_app/core/widgets/custom_button.dart';
 import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -17,7 +17,6 @@ class _LoginViewState extends State<LoginView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
   bool secure = true;
 
   @override
@@ -55,6 +54,8 @@ class _LoginViewState extends State<LoginView> {
                   height: 10,
                 ),
                 CustomTextFormFiled(
+                  validator: (val) => AppValidators.validateEmail(emailController.text),
+
                   customController: emailController,
                   cursorColor: AppColors.white,
                   borderRadius: 10,
@@ -62,7 +63,6 @@ class _LoginViewState extends State<LoginView> {
                      Styles.hintTextStyle,
                   borderColor: Colors.white,
                   inputTextStyle:Styles.inputTextStyle,
-                  textValidator: 'Enter correct Email',
                   hint: 'Email',
                   type: TextInputType.text,
                 ),
@@ -70,6 +70,7 @@ class _LoginViewState extends State<LoginView> {
                   height: 10,
                 ),
                 CustomTextFormFiled(
+                  validator: (val) => AppValidators.validatePassword(passwordController.text),
                   customController: passwordController,
                   cursorColor: AppColors.white,
                   borderRadius: 10,
@@ -77,7 +78,6 @@ class _LoginViewState extends State<LoginView> {
                   Styles.hintTextStyle,
                   borderColor: AppColors.white,
                   inputTextStyle: Styles.inputTextStyle,
-                  textValidator: 'Enter correct password',
                   hint: 'Password',
                   secure: secure,
                   type: TextInputType.visiblePassword,
@@ -97,6 +97,9 @@ class _LoginViewState extends State<LoginView> {
                 CustomButton(
                   text: 'Sign In',
                   onTap: () {
+                    if (formKey.currentState!.validate()) {
+                    }
+
                   },
                   containerHeight: 50,
                   buttonColor: Colors.white,
@@ -115,7 +118,6 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        GoRouter.of(context).pop();
                       },
                       child:  Text(
                         ' Sign Up',

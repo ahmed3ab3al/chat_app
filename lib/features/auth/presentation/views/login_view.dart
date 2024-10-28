@@ -4,6 +4,8 @@ import 'package:chat_app/core/utils/styles.dart';
 import 'package:chat_app/core/utils/validator.dart';
 import 'package:chat_app/core/widgets/custom_button.dart';
 import 'package:chat_app/core/widgets/custom_text_form_field.dart';
+import 'package:chat_app/core/widgets/dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -17,6 +19,8 @@ class _LoginViewState extends State<LoginView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   bool secure = true;
 
   @override
@@ -55,7 +59,6 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 CustomTextFormFiled(
                   validator: (val) => AppValidators.validateEmail(emailController.text),
-
                   customController: emailController,
                   cursorColor: AppColors.white,
                   borderRadius: 10,
@@ -64,7 +67,7 @@ class _LoginViewState extends State<LoginView> {
                   borderColor: Colors.white,
                   inputTextStyle:Styles.inputTextStyle,
                   hint: 'Email',
-                  type: TextInputType.text,
+                  type: TextInputType.emailAddress,
                 ),
                 const SizedBox(
                   height: 10,
@@ -96,10 +99,10 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 CustomButton(
                   text: 'Sign In',
-                  onTap: () {
+                  onTap: () async {
                     if (formKey.currentState!.validate()) {
+                      await signIn(context);
                     }
-
                   },
                   containerHeight: 50,
                   buttonColor: Colors.white,
@@ -133,4 +136,63 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
+
+
+  Future<void> signIn(BuildContext context) async {
+    DialogUtils.showLoading(context);
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      DialogUtils.hideLoading(context);
+      DialogUtils.showMessage(
+          context: context,
+          title: "Success",
+          content: "Register Successfully.",
+          button1Name: "Ok",
+          button1Function: () {});
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-credential') {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(
+          context: context,
+          title: "Failed",
+          content: "Email or password is incorrect.",
+          button1Name: "Retry",
+        );
+      } else if (e.code == 'user-not-found') {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(
+          context: context,
+          title: "Failed",
+          content: "No user found for that email.",
+          button1Name: "Retry",
+        );
+      } else if (e.code == 'wrong-password') {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(
+          context: context,
+          title: "Failed",
+          content: "Wrong password provided for that user.",
+          button1Name: "Retry",
+        );
+      } else if (e.code == 'network-request-failed') {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(
+          context: context,
+          title: "Failed",
+          content: "Network request failed.",
+          button1Name: "Retry",
+        );
+      }
+    } catch (e) {
+      DialogUtils.hideLoading(context);
+      DialogUtils.showMessage(
+        context: context,
+        title: "Failed",
+        content: "Something went wrong. Please try again.",
+        button1Name: "Retry",
+      );
+    }
+  }
+
 }

@@ -1,4 +1,5 @@
 import 'package:chat_app/constant.dart';
+import 'package:chat_app/core/utils/app_router.dart';
 import 'package:chat_app/core/utils/colors.dart';
 import 'package:chat_app/core/utils/styles.dart';
 import 'package:chat_app/core/widgets/custom_button.dart';
@@ -6,6 +7,7 @@ import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:chat_app/core/widgets/dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/utils/validator.dart';
 
 class SignUpView extends StatefulWidget {
@@ -140,8 +142,10 @@ class _LoginViewState extends State<SignUpView> {
           context: context,
           title: "Success",
           content: "Register Successfully.",
-          button1Name: "Ok",
-          button1Function: () {});
+          button1Name: "Sign In",
+          button1Function: () {
+            GoRouter.of(context).push(AppRouter.login);
+          });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-credential') {
         DialogUtils.hideLoading(context);
@@ -149,7 +153,7 @@ class _LoginViewState extends State<SignUpView> {
           context: context,
           title: "Failed",
           content: "Email or password is incorrect.",
-          button1Name: "OK",
+          button1Name: "Retry",
         );
       } else if (e.code == 'email-already-in-use') {
         DialogUtils.hideLoading(context);
@@ -157,8 +161,7 @@ class _LoginViewState extends State<SignUpView> {
           context: context,
           title: "Failed",
           content: "Email is already in use.",
-          button1Name: "OK",
-          button2Name: "Retry",
+          button1Name: "Retry",
         );
       } else if (e.code == 'network-request-failed') {
         DialogUtils.hideLoading(context);
@@ -166,8 +169,7 @@ class _LoginViewState extends State<SignUpView> {
           context: context,
           title: "Failed",
           content: "Network request failed.",
-          button1Name: "OK",
-          button2Name: "Retry",
+          button1Name: "Retry",
         );
       }
     } catch (e) {
@@ -176,7 +178,7 @@ class _LoginViewState extends State<SignUpView> {
         context: context,
         title: "Failed",
         content: "Something went wrong. Please try again.",
-        button1Name: "OK",
+        button1Name: "Retry",
       );
     }
   }

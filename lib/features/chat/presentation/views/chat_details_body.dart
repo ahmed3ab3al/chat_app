@@ -1,4 +1,5 @@
 import 'package:chat_app/constant.dart';
+import 'package:chat_app/core/utils/colors.dart';
 import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:chat_app/features/chat/data/models/messages_model.dart';
 import 'package:chat_app/features/chat/presentation/views/widgets/custom_chat_bubble.dart';
@@ -7,30 +8,25 @@ import 'package:flutter/material.dart';
 
 class ChatDetailsBody extends StatelessWidget {
    ChatDetailsBody({super.key});
-  TextEditingController customController = TextEditingController();
-  CollectionReference messages =
+ final TextEditingController customController = TextEditingController();
+   final CollectionReference messages =
       FirebaseFirestore.instance.collection('messages');
+   final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot>(
-      future: messages.get(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: messages.orderBy('createdAt', descending: true).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if(snapshot.hasData){
           List<MessagesModel> messagesList =[];
-          // snapshot.data.docs.forEach((element) {
-          //   messagesList.add(MessagesModel.fromJson(element.data()));
-          // // });
-          // for (var element in snapshot.data.docs) {
-          //   messagesList.add(MessagesModel.fromJson(element.data()));
-          // }
           for(int i = 0; i < snapshot.data.docs.length; i++){
             messagesList.add(MessagesModel.fromJson(snapshot.data.docs[i]));
           }
           return  Scaffold(
             appBar: AppBar(
               backgroundColor: kPrimaryColor,
-              title: const Row(
+              title:  Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image(
@@ -42,7 +38,8 @@ class ChatDetailsBody extends StatelessWidget {
                   ),
                   Text(
                     'Chat',
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                    style: TextStyle(
+                        color:AppColors.white, fontSize: 25),
                   )
                 ],
               ),
@@ -51,9 +48,9 @@ class ChatDetailsBody extends StatelessWidget {
               children: [
                 Expanded(
                     child: ListView.builder(
+                      reverse: true,
                       itemBuilder: (context, index) => CustomChatBubble(
-                    //    message: messagesList[index].message,
-                        mess: messagesList[index],
+                   message: messagesList[index].message,
                       ),
                       itemCount: messagesList.length,
                     )),
@@ -64,6 +61,7 @@ class ChatDetailsBody extends StatelessWidget {
                     {
                       messages.add({
                         'message' : data,
+                        'createdAt': DateTime.now(),
                       });
                       customController.clear();
                     },
@@ -84,6 +82,12 @@ class ChatDetailsBody extends StatelessWidget {
                           'message' : customController.text,
                         });
                         customController.clear();
+                        scrollController.animateTo(
+                          0,
+                         // scrollController.position.maxScrollExtent,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.easeIn,
+                        );
                       },
                       child: Icon(
                         Icons.send,

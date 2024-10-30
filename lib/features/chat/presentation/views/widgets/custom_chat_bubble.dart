@@ -1,12 +1,12 @@
+import 'package:chat_app/core/utils/colors.dart';
 import 'package:chat_app/features/chat/data/models/messages_model.dart';
 import 'package:flutter/material.dart';
 import '../../../../../constant.dart';
 
 class CustomChatBubble extends StatelessWidget {
 
- // final String message;
-  const CustomChatBubble({super.key, required this.mess});
- final MessagesModel mess;
+  final String message;
+  const CustomChatBubble({super.key, required this.message});
 
 
   @override
@@ -25,9 +25,8 @@ class CustomChatBubble extends StatelessWidget {
           color: kPrimaryColor,
         ),
         child: Text(
-        //  message,
-          mess.message,
-          style: TextStyle(color: Colors.white),),
+        message,
+          style: TextStyle(color: AppColors.white),),
       ),
     );
   }

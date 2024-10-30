@@ -11,7 +11,7 @@ abstract class AppRouter {
     routes: [
       GoRoute(
         path:'/' ,
-        builder: (context, state) =>  SignUpView(),
+        builder: (context, state) =>  ChatDetailsBody(),
       ),
       GoRoute(
         path: login,

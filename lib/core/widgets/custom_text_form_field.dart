@@ -15,6 +15,7 @@ class CustomTextFormFiled extends StatelessWidget {
   final Color? borderColor;
   final Color? cursorColor;
   final String? Function(String?) validator;
+  final void Function(String)? onFieldSubmitted;
 
   const CustomTextFormFiled({
     super.key,
@@ -30,12 +31,13 @@ class CustomTextFormFiled extends StatelessWidget {
     this.borderRadius,
     this.inputTextStyle,
     this.borderColor,
-    this.cursorColor, required this.validator,
+    this.cursorColor, required this.validator, this.onFieldSubmitted,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: onFieldSubmitted,
       style: inputTextStyle,
       cursorColor: cursorColor,
       validator:validator,

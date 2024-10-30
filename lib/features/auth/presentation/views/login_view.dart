@@ -1,12 +1,15 @@
 import 'package:chat_app/constant.dart';
+import 'package:chat_app/core/utils/app_router.dart';
 import 'package:chat_app/core/utils/colors.dart';
 import 'package:chat_app/core/utils/styles.dart';
 import 'package:chat_app/core/utils/validator.dart';
 import 'package:chat_app/core/widgets/custom_button.dart';
 import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:chat_app/core/widgets/dialog.dart';
+import 'package:chat_app/features/chat/presentation/views/chat_details_body.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -102,6 +105,7 @@ class _LoginViewState extends State<LoginView> {
                   onTap: () async {
                     if (formKey.currentState!.validate()) {
                       await signIn(context);
+                      GoRouter.of(context).pushReplacement(AppRouter.chatDetails);
                     }
                   },
                   containerHeight: 50,
@@ -121,6 +125,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        GoRouter.of(context).push(AppRouter.signUp);
                       },
                       child:  Text(
                         ' Sign Up',
@@ -148,8 +153,10 @@ class _LoginViewState extends State<LoginView> {
           context: context,
           title: "Success",
           content: "Register Successfully.",
-          button1Name: "Ok",
-          button1Function: () {});
+          button1Name: "Done",
+          button1Function: () {
+
+          });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-credential') {
         DialogUtils.hideLoading(context);

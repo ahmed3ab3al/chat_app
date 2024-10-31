@@ -102,6 +102,7 @@ class _LoginViewState extends State<SignUpView> {
                         await register(
                           context,
                         );
+                         GoRouter.of(context).push(AppRouter.login);
                       }
                     },
                     containerHeight: 50,

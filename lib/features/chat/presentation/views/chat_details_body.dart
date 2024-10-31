@@ -7,13 +7,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatDetailsBody extends StatelessWidget {
-   ChatDetailsBody({super.key});
+   ChatDetailsBody({super.key, required this.email,});
+   final String email;
  final TextEditingController customController = TextEditingController();
    final CollectionReference messages =
       FirebaseFirestore.instance.collection('messages');
    final ScrollController scrollController = ScrollController();
 
-  @override
+
+   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: messages.orderBy('createdAt', descending: true).snapshots(),
@@ -49,8 +51,13 @@ class ChatDetailsBody extends StatelessWidget {
                 Expanded(
                     child: ListView.builder(
                       reverse: true,
-                      itemBuilder: (context, index) => CustomChatBubble(
+                      itemBuilder: (context, index) =>
+messagesList[index].id == email?
+                          CustomChatBubble(
                    message: messagesList[index].message,
+                      ) :
+                          CustomFriendChatBubble(
+                        message: messagesList[index].message,
                       ),
                       itemCount: messagesList.length,
                     )),
@@ -62,8 +69,16 @@ class ChatDetailsBody extends StatelessWidget {
                       messages.add({
                         'message' : data,
                         'createdAt': DateTime.now(),
+                        'id'  : email
+
                       });
                       customController.clear();
+                      scrollController.animateTo(
+                        0,
+                        // scrollController.position.maxScrollExtent,
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.easeIn,
+                      );
                     },
                     customController: customController,
                     validator: (val)=>null,
@@ -80,6 +95,8 @@ class ChatDetailsBody extends StatelessWidget {
                       onTap: (){
                         messages.add({
                           'message' : customController.text,
+                          'createdAt': DateTime.now(),
+                          'id'  : email
                         });
                         customController.clear();
                         scrollController.animateTo(

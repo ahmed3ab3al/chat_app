@@ -105,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                   onTap: () async {
                     if (formKey.currentState!.validate()) {
                       await signIn(context);
-                      GoRouter.of(context).pushReplacement(AppRouter.chatDetails);
+                      GoRouter.of(context).pushReplacement(AppRouter.chatDetails,extra: emailController.text);
                     }
                   },
                   containerHeight: 50,
@@ -149,14 +149,6 @@ class _LoginViewState extends State<LoginView> {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
       DialogUtils.hideLoading(context);
-      DialogUtils.showMessage(
-          context: context,
-          title: "Success",
-          content: "Register Successfully.",
-          button1Name: "Done",
-          button1Function: () {
-
-          });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-credential') {
         DialogUtils.hideLoading(context);
@@ -203,3 +195,5 @@ class _LoginViewState extends State<LoginView> {
   }
 
 }
+
+

@@ -10,18 +10,24 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       GoRoute(
-        path:'/' ,
-        builder: (context, state) =>  ChatDetailsBody(),
+        path: '/',
+        builder: (context, state) => LoginView(),
       ),
       GoRoute(
-        path: login,
+        path: signUp,
         builder: (context, state) => const SignUpView(),
       ),
       GoRoute(
-        path: chatDetails,
-        builder: (context, state) =>  ChatDetailsBody(),
+        path: login,
+        builder: (context, state) => const LoginView(),
       ),
-
+      GoRoute(
+          path: chatDetails,
+          builder: (context, state) {
+            return ChatDetailsBody(
+              email: state.extra.toString(),
+            );
+          }),
     ],
   );
 }

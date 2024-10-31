@@ -118,8 +118,31 @@ class ChatDetailsBody extends StatelessWidget {
             ),
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: kPrimaryColor,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+                    image: AssetImage("assets/images/scholar.png"),
+                    height: 40,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Chat',
+                    style: TextStyle(color: AppColors.white, fontSize: 25),
+                  )
+                ],
+              ),
+            ),
+            body: Center(
+              child: CircularProgressIndicator(
+                color: kPrimaryColor,
+              ),
+            ),
           );
         }
       },

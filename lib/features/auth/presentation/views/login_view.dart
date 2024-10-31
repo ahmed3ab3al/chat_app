@@ -22,7 +22,6 @@ class _LoginViewState extends State<LoginView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;
-
   bool secure = true;
 
   @override
@@ -101,9 +100,6 @@ class _LoginViewState extends State<LoginView> {
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
                         await signIn(context);
-                        GoRouter.of(context).pushReplacement(
-                            AppRouter.chatDetails,
-                            extra: emailController.text);
                       }
                     },
                     containerHeight: 50,
@@ -140,13 +136,16 @@ class _LoginViewState extends State<LoginView> {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
       DialogUtils.hideLoading(context);
+      GoRouter.of(context).pushReplacement(
+          AppRouter.chatDetails,
+          extra: emailController.text);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-credential') {
         DialogUtils.hideLoading(context);
         DialogUtils.showMessage(
           context: context,
           title: "Failed",
-          content: "Email or password is incorrect.",
+          content: "Wrong email or password.",
           button1Name: "Retry",
         );
       } else if (e.code == 'user-not-found') {
@@ -171,6 +170,22 @@ class _LoginViewState extends State<LoginView> {
           context: context,
           title: "Failed",
           content: "Network request failed.",
+          button1Name: "Retry",
+        );
+      } else if (e.code == 'invalid-email') {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(
+          context: context,
+          title: "Failed",
+          content: "Email is incorrect.",
+          button1Name: "Retry",
+        );
+      } else if (e.code == 'user-disabled') {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(
+          context: context,
+          title: "Failed",
+          content: "This user account has been disabled..",
           button1Name: "Retry",
         );
       }

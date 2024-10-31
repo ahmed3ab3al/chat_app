@@ -102,7 +102,7 @@ class _LoginViewState extends State<SignUpView> {
                         await register(
                           context,
                         );
-                        GoRouter.of(context).push(AppRouter.login);
+
                       }
                     },
                     containerHeight: 50,
@@ -139,24 +139,9 @@ class _LoginViewState extends State<SignUpView> {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
       DialogUtils.hideLoading(context);
-      DialogUtils.showMessage(
-          context: context,
-          title: "Success",
-          content: "Register Successfully.",
-          button1Name: "Sign In",
-          button1Function: () {
-            GoRouter.of(context).push(AppRouter.login);
-          });
+      GoRouter.of(context).pop();
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'invalid-credential') {
-        DialogUtils.hideLoading(context);
-        DialogUtils.showMessage(
-          context: context,
-          title: "Failed",
-          content: "Email or password is incorrect.",
-          button1Name: "Retry",
-        );
-      } else if (e.code == 'email-already-in-use') {
+      if (e.code == 'email-already-in-use') {
         DialogUtils.hideLoading(context);
         DialogUtils.showMessage(
           context: context,
@@ -170,6 +155,14 @@ class _LoginViewState extends State<SignUpView> {
           context: context,
           title: "Failed",
           content: "Network request failed.",
+          button1Name: "Retry",
+        );
+      } else if (e.code == 'weak-password') {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(
+          context: context,
+          title: "Failed",
+          content: "Weak password .",
           button1Name: "Retry",
         );
       }

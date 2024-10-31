@@ -31,7 +31,9 @@ class CustomTextFormFiled extends StatelessWidget {
     this.borderRadius,
     this.inputTextStyle,
     this.borderColor,
-    this.cursorColor, required this.validator, this.onFieldSubmitted,
+    this.cursorColor,
+    required this.validator,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -40,7 +42,7 @@ class CustomTextFormFiled extends StatelessWidget {
       onFieldSubmitted: onFieldSubmitted,
       style: inputTextStyle,
       cursorColor: cursorColor,
-      validator:validator,
+      validator: validator,
       controller: customController,
       keyboardType: type,
       obscureText: secure!,

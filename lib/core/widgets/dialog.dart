@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class DialogUtils {
-
   static showLoading(BuildContext context, [Color? color]) {
     return showDialog(
       context: context,
@@ -15,7 +14,7 @@ class DialogUtils {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                 "Loading...",
+                  "Loading...",
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               )
@@ -30,16 +29,16 @@ class DialogUtils {
     Navigator.pop(context);
   }
 
-  static showMessage({
-    required BuildContext context,
-    Color? color,
-    required String content,
-    required String title,
-    String? button1Name,
-    Function? button1Function,
-    String? button2Name,
-    Function? button2Function,
-    bool? barrierDismissible}) {
+  static showMessage(
+      {required BuildContext context,
+      Color? color,
+      required String content,
+      required String title,
+      String? button1Name,
+      Function? button1Function,
+      String? button2Name,
+      Function? button2Function,
+      bool? barrierDismissible}) {
     return showDialog(
       context: context,
       barrierDismissible: barrierDismissible ?? false,

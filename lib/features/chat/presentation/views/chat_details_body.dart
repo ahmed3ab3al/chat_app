@@ -7,28 +7,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatDetailsBody extends StatelessWidget {
-   ChatDetailsBody({super.key, required this.email,});
-   final String email;
- final TextEditingController customController = TextEditingController();
-   final CollectionReference messages =
+  ChatDetailsBody({
+    super.key,
+    required this.email,
+  });
+  final String email;
+  final TextEditingController customController = TextEditingController();
+  final CollectionReference messages =
       FirebaseFirestore.instance.collection('messages');
-   final ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
-
-   @override
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: messages.orderBy('createdAt', descending: true).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if(snapshot.hasData){
-          List<MessagesModel> messagesList =[];
-          for(int i = 0; i < snapshot.data.docs.length; i++){
+        if (snapshot.hasData) {
+          List<MessagesModel> messagesList = [];
+          for (int i = 0; i < snapshot.data.docs.length; i++) {
             messagesList.add(MessagesModel.fromJson(snapshot.data.docs[i]));
           }
-          return  Scaffold(
+          return Scaffold(
             appBar: AppBar(
               backgroundColor: kPrimaryColor,
-              title:  Row(
+              title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image(
@@ -40,8 +42,7 @@ class ChatDetailsBody extends StatelessWidget {
                   ),
                   Text(
                     'Chat',
-                    style: TextStyle(
-                        color:AppColors.white, fontSize: 25),
+                    style: TextStyle(color: AppColors.white, fontSize: 25),
                   )
                 ],
               ),
@@ -50,27 +51,25 @@ class ChatDetailsBody extends StatelessWidget {
               children: [
                 Expanded(
                     child: ListView.builder(
-                      reverse: true,
-                      itemBuilder: (context, index) =>
-messagesList[index].id == email?
-                          CustomChatBubble(
-                   message: messagesList[index].message,
-                      ) :
-                          CustomFriendChatBubble(
-                        message: messagesList[index].message,
-                      ),
-                      itemCount: messagesList.length,
-                    )),
+                  reverse: true,
+                  itemBuilder: (context, index) =>
+                      messagesList[index].id == email
+                          ? CustomChatBubble(
+                              message: messagesList[index].message,
+                            )
+                          : CustomFriendChatBubble(
+                              message: messagesList[index].message,
+                            ),
+                  itemCount: messagesList.length,
+                )),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: CustomTextFormFiled(
-                    onFieldSubmitted: (data)
-                    {
+                    onFieldSubmitted: (data) {
                       messages.add({
-                        'message' : data,
+                        'message': data,
                         'createdAt': DateTime.now(),
-                        'id'  : email
-
+                        'id': email
                       });
                       customController.clear();
                       scrollController.animateTo(
@@ -81,7 +80,7 @@ messagesList[index].id == email?
                       );
                     },
                     customController: customController,
-                    validator: (val)=>null,
+                    validator: (val) => null,
                     type: TextInputType.text,
                     secure: false,
                     borderRadius: 16,
@@ -92,16 +91,16 @@ messagesList[index].id == email?
                       color: kPrimaryColor,
                     ),
                     suffixIcon: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         messages.add({
-                          'message' : customController.text,
+                          'message': customController.text,
                           'createdAt': DateTime.now(),
-                          'id'  : email
+                          'id': email
                         });
                         customController.clear();
                         scrollController.animateTo(
                           0,
-                         // scrollController.position.maxScrollExtent,
+                          // scrollController.position.maxScrollExtent,
                           duration: const Duration(seconds: 1),
                           curve: Curves.easeIn,
                         );
@@ -118,12 +117,11 @@ messagesList[index].id == email?
               ],
             ),
           );
-        }else{
+        } else {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-
       },
     );
   }

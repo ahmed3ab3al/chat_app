@@ -102,7 +102,7 @@ class _LoginViewState extends State<SignUpView> {
                         await register(
                           context,
                         );
-                         GoRouter.of(context).push(AppRouter.login);
+                        GoRouter.of(context).push(AppRouter.login);
                       }
                     },
                     containerHeight: 50,
@@ -119,7 +119,7 @@ class _LoginViewState extends State<SignUpView> {
                         style: Styles.noHaveAccountTextStyle),
                     GestureDetector(
                       onTap: () {
-                         GoRouter.of(context).pop();
+                        GoRouter.of(context).pop();
                       },
                       child: Text(' Login', style: Styles.signUpTextStyle),
                     )

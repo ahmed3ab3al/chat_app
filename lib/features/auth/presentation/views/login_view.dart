@@ -6,7 +6,6 @@ import 'package:chat_app/core/utils/validator.dart';
 import 'package:chat_app/core/widgets/custom_button.dart';
 import 'package:chat_app/core/widgets/custom_text_form_field.dart';
 import 'package:chat_app/core/widgets/dialog.dart';
-import 'package:chat_app/features/chat/presentation/views/chat_details_body.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -36,19 +35,16 @@ class _LoginViewState extends State<LoginView> {
           child: Form(
             key: formKey,
             child: Column(
-              children:[
+              children: [
                 const Image(image: AssetImage("assets/images/scholar.png")),
                 const SizedBox(
                   height: 10,
                 ),
-                 Text(
-                  'Scholar Chat',
-                  style:Styles.appTitleTextStyle
-                ),
+                Text('Scholar Chat', style: Styles.appTitleTextStyle),
                 const SizedBox(
                   height: 80,
                 ),
-                 Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
@@ -61,14 +57,14 @@ class _LoginViewState extends State<LoginView> {
                   height: 10,
                 ),
                 CustomTextFormFiled(
-                  validator: (val) => AppValidators.validateEmail(emailController.text),
+                  validator: (val) =>
+                      AppValidators.validateEmail(emailController.text),
                   customController: emailController,
                   cursorColor: AppColors.white,
                   borderRadius: 10,
-                  hintTextStyle:
-                     Styles.hintTextStyle,
+                  hintTextStyle: Styles.hintTextStyle,
                   borderColor: Colors.white,
-                  inputTextStyle:Styles.inputTextStyle,
+                  inputTextStyle: Styles.inputTextStyle,
                   hint: 'Email',
                   type: TextInputType.emailAddress,
                 ),
@@ -76,12 +72,12 @@ class _LoginViewState extends State<LoginView> {
                   height: 10,
                 ),
                 CustomTextFormFiled(
-                  validator: (val) => AppValidators.validatePassword(passwordController.text),
+                  validator: (val) =>
+                      AppValidators.validatePassword(passwordController.text),
                   customController: passwordController,
                   cursorColor: AppColors.white,
                   borderRadius: 10,
-                  hintTextStyle:
-                  Styles.hintTextStyle,
+                  hintTextStyle: Styles.hintTextStyle,
                   borderColor: AppColors.white,
                   inputTextStyle: Styles.inputTextStyle,
                   hint: 'Password',
@@ -101,36 +97,32 @@ class _LoginViewState extends State<LoginView> {
                   height: 30,
                 ),
                 CustomButton(
-                  text: 'Sign In',
-                  onTap: () async {
-                    if (formKey.currentState!.validate()) {
-                      await signIn(context);
-                      GoRouter.of(context).pushReplacement(AppRouter.chatDetails,extra: emailController.text);
-                    }
-                  },
-                  containerHeight: 50,
-                  buttonColor: Colors.white,
-                  radius: 10,
-                  textStyle: Styles.buttonTextStyle
-                ),
+                    text: 'Sign In',
+                    onTap: () async {
+                      if (formKey.currentState!.validate()) {
+                        await signIn(context);
+                        GoRouter.of(context).pushReplacement(
+                            AppRouter.chatDetails,
+                            extra: emailController.text);
+                      }
+                    },
+                    containerHeight: 50,
+                    buttonColor: Colors.white,
+                    radius: 10,
+                    textStyle: Styles.buttonTextStyle),
                 const SizedBox(
                   height: 12,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                     Text(
-                      'Don\'t have an account ?',
-                      style:Styles.noHaveAccountTextStyle
-                    ),
+                    Text('Don\'t have an account ?',
+                        style: Styles.noHaveAccountTextStyle),
                     GestureDetector(
                       onTap: () {
                         GoRouter.of(context).push(AppRouter.signUp);
                       },
-                      child:  Text(
-                        ' Sign Up',
-                        style: Styles.signUpTextStyle
-                      ),
+                      child: Text(' Sign Up', style: Styles.signUpTextStyle),
                     )
                   ],
                 )
@@ -141,7 +133,6 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
-
 
   Future<void> signIn(BuildContext context) async {
     DialogUtils.showLoading(context);
@@ -193,7 +184,4 @@ class _LoginViewState extends State<LoginView> {
       );
     }
   }
-
 }
-
-

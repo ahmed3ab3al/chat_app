@@ -51,6 +51,7 @@ class ChatDetailsBody extends StatelessWidget {
               children: [
                 Expanded(
                     child: ListView.builder(
+                      controller: scrollController,
                   reverse: true,
                   itemBuilder: (context, index) =>
                       messagesList[index].id == email
